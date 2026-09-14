@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MU Validate Pro v4.0 - Energy Meter Calibration</title>
+  <meta name="description" content="Measurement uncertainty validation with correction factor, historical drift and full manual calculation trail.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="splash-screen" id="splash-screen">
+    <div class="splash-content">
+      <div class="splash-icon">⚡</div>
+      <h1>MU Validate Pro</h1>
+      <p>Measurement Uncertainty · Energy Meter Calibration</p>
+      <div class="loader"><span></span></div>
+      <small>Manual Calculation Trail · v4.0</small>
+    </div>
+  </div>
+
+  <div class="app-container" id="app-container" hidden>
+    <header class="top-bar">
+      <div class="brand"><span class="logo">⚡</span><strong>MU Validate Pro</strong><span class="badge">v4.0</span></div>
+      <div class="actions">
+        <button id="btn-save" title="Save project">💾</button>
+        <button id="btn-load" title="Load project">📂</button>
+        <button id="btn-darkmode" title="Toggle theme">🌙</button>
+        <button onclick="window.print()" title="Print report">🖨️</button>
+      </div>
+    </header>
+
+    <main id="main-content" class="main-content"></main>
+
+    <footer>
+      MU Validate Pro v4.0 · Manual calculation trace for measurement uncertainty validation
+    </footer>
+
+    <div class="modal" id="load-modal">
+      <div class="modal-card">
+        <div class="modal-header"><h3>Load Project</h3><button id="btn-load-cancel">✕</button></div>
+        <div id="load-project-list"></div>
+      </div>
+    </div>
+
+    <div class="modal" id="save-modal">
+      <div class="modal-card">
+        <div class="modal-header"><h3>Save Project</h3><button id="btn-save-cancel">✕</button></div>
+        <label class="modal-label">Project Name</label>
+        <input id="save-project-name" type="text" placeholder="e.g. JTSO0280043 - Meter A">
+        <button id="btn-save-confirm" class="btn primary full">Save</button>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
