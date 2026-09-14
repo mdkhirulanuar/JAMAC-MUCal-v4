@@ -1,27 +1,28 @@
-# ⚡ MU Validate Pro v4.0
+# ⚡ MU Validate Pro v4.1
 
 **Measurement Uncertainty Validator for Energy Meter Calibration**  
-Manual calculation trace · Reference-standard correction · Historical drift · Browser-based single-page application
+Manual calculation trace · Reference-standard correction · Historical drift · JAMAC Student-t calculation · Browser-based single-page application
 
 ## Purpose
 
-MU Validate Pro v4.0 is an upgraded validation tool derived from the original `JAMAC-MUCal` / MU Validate Pro v3.3 workflow. The original repository is retained unchanged; this repository is the controlled development version for v4.
+MU Validate Pro v4.1 is the controlled development version derived from the original `JAMAC-MUCal` / MU Validate Pro v3.3 workflow. The original repository remains unchanged.
 
-The application is intended to help calibration personnel reproduce and review MU calculations transparently. It shows the arithmetic sequence from raw readings to corrected result, uncertainty components, combined standard uncertainty, effective degrees of freedom, coverage factor, expanded uncertainty, CMC comparison and Excel-reference comparison.
+The application helps calibration personnel reproduce and review measurement uncertainty calculations transparently. It shows the arithmetic sequence from raw readings to corrected result, uncertainty components, combined standard uncertainty, effective degrees of freedom, Student-t coverage factor, expanded uncertainty, CMC comparison and Excel-reference comparison.
 
-## v4.0 changes
+## v4.1 validated calculation changes
 
-- Adds **Reference Standard Error from Calibration Certificate (%)** as a signed manual input.
+- Uses **Reference Standard Error from Calibration Certificate (%)** as a signed manual input.
 - Calculates **Correction Factor (CF)** automatically: `CF = −Eref`.
 - Calculates **Corrected Mean Error**: `x̄corrected = x̄ + CF`.
-- Shows corrected value for every individual reading.
-- Renames the old error-drift concept to **Historical Drift of Reference Standard (%)**.
-- Historical drift remains a **manual non-negative laboratory input**.
-- Keeps calibration-certificate uncertainty separate from correction and drift.
-- Displays a complete manual calculation trail when **Calculate & Validate** is pressed.
-- Removes the previous hard-coded `v = 60` assumption for calibration-certificate Type B uncertainty. In v4, Type B components default to infinite degrees of freedom unless the laboratory has separately justified finite DoF information.
-- Uses a two-sided 95% Student-t coverage factor based on effective degrees of freedom.
-- Retains the v3 CMC reporting-floor workflow but labels it as a laboratory/accreditation reporting control that must be verified against the applicable scope/policy.
+- Keeps calibration-certificate uncertainty separate from correction and historical drift.
+- Uses **Historical Drift of Reference Standard Used (%)** as a manual laboratory-controlled input. The value must refer to the reference standard directly used in the current calibration.
+- Uses `u2 = Ucert / kcert` for calibration-certificate uncertainty.
+- Uses **v2 = 60** for U2 to reproduce the current approved JAMAC `JM-LR-037` calculation method.
+- Uses Welch–Satterthwaite effective degrees of freedom.
+- Uses the JAMAC Student's-t table at approximately 95% confidence with the **lower tabulated DoF** convention.
+- For finite `veff ≥ 120`, the current JAMAC method uses the `120` row, therefore `k = 1.98`.
+- U3, U4 and U5 use `v = ∞` in the current JM-LR-037 uncertainty budget.
+- Retains upward rounding to 3 decimal places and the existing CMC reporting-floor workflow for compatibility with the laboratory calculation process.
 
 ## Calculation model
 
@@ -37,13 +38,13 @@ A constant correction shifts all readings by the same amount and therefore does 
 
 ### Standard uncertainty components
 
-| Component | Source | Model |
-|---|---|---|
-| U1 | Repeatability | `u1 = s / √n` |
-| U2 | Calibration certificate | `u2 = Ucert / kcert` |
-| U3 | Reference-standard resolution | `u3 = (R/2) / √3` |
-| U4 | Historical reference-standard drift | `u4 = D / √3` |
-| U5 | Temperature effect | `u5 = (β × ΔT) / √3` |
+| Component | Source | Model | Degree of freedom used |
+|---|---|---|---|
+| U1 | Repeatability | `u1 = s / √n` | `v1 = n−1` |
+| U2 | Calibration certificate | `u2 = Ucert / kcert` | `v2 = 60` |
+| U3 | Reference-standard resolution | `u3 = (R/2) / √3` | `∞` |
+| U4 | Historical drift of reference standard used | `u4 = D / √3` | `∞` |
+| U5 | Temperature effect | `u5 = (β × ΔT) / √3` | `∞` |
 
 Combined standard uncertainty:
 
@@ -51,37 +52,59 @@ Combined standard uncertainty:
 
 Effective degrees of freedom:
 
-`veff = uc⁴ / Σ(ui⁴/vi)`
+`veff = uc⁴ / [(u1⁴/v1) + (u2⁴/60)]`
 
-In the current v4 implementation, U1 uses `v1 = n−1` and Type B components use `v = ∞` by default.
+U3, U4 and U5 contribute zero to the Welch–Satterthwaite denominator because their degree of freedom is treated as infinity in the current laboratory budget.
+
+### Coverage factor
+
+The approved JAMAC approach is:
+
+`veff → Student's-t table → k95`
+
+The software reproduces the table used in the current `JM-LR-037` workbook:
+
+| DoF | k | DoF | k | DoF | k |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 12.71 | 11 | 2.20 | 25 | 2.06 |
+| 2 | 4.30 | 12 | 2.18 | 30 | 2.04 |
+| 3 | 3.18 | 13 | 2.16 | 35 | 2.03 |
+| 4 | 2.78 | 14 | 2.14 | 40 | 2.02 |
+| 5 | 2.57 | 15 | 2.13 | 45 | 2.01 |
+| 6 | 2.45 | 16 | 2.12 | 50 | 2.01 |
+| 7 | 2.36 | 17 | 2.11 | 60 | 2.00 |
+| 8 | 2.31 | 18 | 2.10 | 70 | 1.99 |
+| 9 | 2.26 | 19 | 2.09 | 80 | 1.99 |
+| 10 | 2.23 | 20 | 2.09 | 90 | 1.99 |
+| 100 | 1.98 | 110 | 1.98 | 120 | 1.98 |
+| ∞ | 1.96 |  |  |  |  |
+
+For non-tabulated finite `veff`, the next lower tabulated DoF is used. Example: `veff = 38.35 → DoF 35 → k = 2.03`.
 
 Expanded uncertainty:
 
 `U = k95 × uc`
 
-The displayed expanded uncertainty is rounded upward to 3 decimal places to preserve the existing v3 validation workflow.
+The calculated U is rounded upward to 3 decimal places for compatibility with the current laboratory workbook.
 
-## Important metrology distinction
+## Important metrology distinctions
 
-The application intentionally separates three different concepts:
+1. **Reference Standard Error** — signed current value from the applicable calibration certificate point.
+2. **Correction Factor** — deterministic correction applied to the measurement result, calculated as the negative of the certificate error.
+3. **Historical Drift** — laboratory-controlled historical stability/drift value for the reference standard directly used in the current calibration.
+4. **Certificate reporting k = 2 statement** — a reporting statement used by the laboratory for approximately 95% coverage; it is separate from the Student-t `k95` used in the calculation engine.
 
-1. **Reference Standard Error** — signed value from the applicable calibration certificate point.
-2. **Correction Factor** — deterministic correction applied to the measured result, automatically calculated as the negative of the certificate error.
-3. **Historical Drift** — laboratory-established stability/drift magnitude from historical control data and entered manually as an uncertainty contribution.
+## Validation status
 
-These values must not be treated as interchangeable.
+The v4.1 engine was regression-checked against the operational workbook `JM-LR-037 - 3PTB08 MU JTSO0260039 E650.xlsx` for 15 +P test points. Calculated `uc`, `veff`, Student-t `k` and final rounded MU reproduced the Excel results for all 15 tested points.
+
+See `VALIDATION.md` for the verification record.
 
 ## Controlled-use note
 
-This tool supports calculation review and software validation evidence. Before production or accredited use, the laboratory should verify:
+The software reproduces the current JAMAC calculation method and can be used as a calculation/validation aid. For accredited operational use, retain version control, approved test evidence, representative regression cases, change control, and laboratory authorization in accordance with the laboratory management system.
 
-- the measurement model and all uncertainty contributors;
-- distribution assumptions and sensitivity coefficients;
-- applicability of the historical-drift model;
-- CMC/reporting rules required by the applicable accreditation body/policy;
-- rounding rules;
-- representative test cases, boundary cases and regression results;
-- software version identification and change control.
+`v2 = 60` is documented here as a **laboratory-controlled calculation convention** reproduced from the approved/current `JM-LR-037` workbook. It is not stated as a general ISO/IEC 17025 requirement.
 
 ## Files
 
@@ -91,6 +114,7 @@ JAMAC-MUCal-v4/
 ├── style.css
 ├── script.js
 ├── README.md
+├── VALIDATION.md
 └── LICENSE
 ```
 
