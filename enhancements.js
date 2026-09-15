@@ -5,7 +5,7 @@
   const fixed=(v,d)=>Number(v).toFixed(d);
   function getState(){try{return JSON.parse(localStorage.getItem('mu-state-v4')||'{}');}catch(_){return{};}}
   function exportProject(){
-    const s=getState(), payload={format:'MU Validate Pro Project',version:'4.2',savedAt:new Date().toISOString(),data:s};
+    const s=getState(), payload={format:'MU Validate Pro Project',version:'4.2',owner:'Mohd Khirul Anuar Bin Saadon',developer:'Mohd Khirul Anuar Bin Saadon',purpose:'Internal verification and validation of JAMAC Metering MU calculations',savedAt:new Date().toISOString(),data:s};
     const text=JSON.stringify(payload,null,2), blob=new Blob([text],{type:'application/json'}), a=document.createElement('a');
     a.href=URL.createObjectURL(blob);a.download=((s.jobRef||s.projectName||'MU-Calculation').replace(/[^a-z0-9._-]+/gi,'_'))+'_MU.json';a.click();
     setTimeout(()=>URL.revokeObjectURL(a.href),1000);
