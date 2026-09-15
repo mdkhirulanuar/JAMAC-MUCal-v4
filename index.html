@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MU Validate Pro v4.1 - Energy Meter Calibration</title>
+  <title>MU Validate Pro v4.2 - Energy Meter Calibration</title>
   <meta name="description" content="Measurement uncertainty validation with correction factor, controlled historical drift, JAMAC Student-t coverage factor and full manual calculation trail.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="print-manual.css">
 </head>
 <body>
   <div class="splash-screen" id="splash-screen">
@@ -17,25 +18,24 @@
       <h1>MU Validate Pro</h1>
       <p>Measurement Uncertainty · Energy Meter Calibration</p>
       <div class="loader"><span></span></div>
-      <small>JAMAC Calculation Method · Manual Calculation Trail · v4.1</small>
+      <small>JAMAC Calculation Method · Manual Calculation Trail · v4.2</small>
     </div>
   </div>
 
   <div class="app-container" id="app-container" hidden>
     <header class="top-bar">
-      <div class="brand"><span class="logo">⚡</span><strong>MU Validate Pro</strong><span class="badge">v4.1</span></div>
+      <div class="brand"><span class="logo">⚡</span><strong>MU Validate Pro</strong><span class="badge">v4.2</span></div>
       <div class="actions">
-        <button id="btn-save" title="Save project">💾</button>
-        <button id="btn-load" title="Load project">📂</button>
+        <button id="btn-save" title="Save project in browser">💾</button>
+        <button id="btn-load" title="Load project from browser">📂</button>
         <button id="btn-darkmode" title="Toggle theme">🌙</button>
-        <button onclick="window.print()" title="Print report">🖨️</button>
       </div>
     </header>
 
     <main id="main-content" class="main-content"></main>
 
     <footer>
-      MU Validate Pro v4.1 · JAMAC-aligned measurement uncertainty calculation and validation trail
+      MU Validate Pro v4.2 · JAMAC-aligned measurement uncertainty calculation and validation trail
     </footer>
 
     <div class="modal" id="load-modal">
@@ -58,5 +58,6 @@
   </div>
 
   <script src="script.js"></script>
+  <script src="enhancements.js"></script>
 </body>
 </html>
