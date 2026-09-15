@@ -1,0 +1,12 @@
+/* MU Validate Pro v4.2 manual-calculation print view */
+@media print {
+  body.print-manual-only * { visibility: hidden !important; }
+  body.print-manual-only #results-card,
+  body.print-manual-only #results-card * { visibility: visible !important; }
+  body.print-manual-only #results-card { position: absolute !important; left: 0 !important; top: 0 !important; width: 100% !important; margin: 0 !important; padding: 0 !important; box-shadow: none !important; border: 0 !important; background: white !important; color: black !important; }
+  body.print-manual-only #results-card .step-body { display: block !important; }
+  body.print-manual-only #results-card .step { break-inside: avoid; page-break-inside: avoid; }
+  body.print-manual-only #results-card .step-arrow { display: none !important; }
+  body.print-manual-only #results-card table { width: 100% !important; }
+  @page { size: A4; margin: 12mm; }
+}
