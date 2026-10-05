@@ -1,8 +1,8 @@
-# MU Validate Pro v4.1 — Regression Validation Record
+# MU Validate Pro v4.3 — Regression Validation Record
 
 ## Objective
 
-Verify that the v4.1 calculation engine reproduces the current JAMAC measurement uncertainty method implemented in `JM-LR-037` for energy meter calibration.
+Verify that the v4.3 calculation engine reproduces the current JAMAC measurement uncertainty method implemented in `JM-LR-037` for energy meter calibration.
 
 ## Reference workbook
 
@@ -26,7 +26,7 @@ Validation scope: 15 populated `+P` test points.
 
 ## Regression results
 
-| Test point | Excel veff | Lookup DoF | Excel k | v4.1 k | Excel MU (%) | v4.1 MU (%) | Result |
+| Test point | Excel veff | Lookup DoF | Excel k | v4.3 k | Excel MU (%) | v4.3 MU (%) | Result |
 |---:|---:|---:|---:|---:|---:|---:|---|
 | 1 | 113.7233 | 110 | 1.98 | 1.98 | 0.047 | 0.047 | PASS |
 | 2 | 110.7328 | 110 | 1.98 | 1.98 | 0.047 | 0.047 | PASS |
@@ -56,6 +56,6 @@ The application does not derive historical drift from certificate history. The i
 
 ## Conclusion
 
-**PASS — v4.1 calculation engine reproduces the tested operational JM-LR-037 results for the validated +P cases.**
+**PASS — v4.3 calculation engine reproduces the tested operational JM-LR-037 results for the validated +P cases.**
 
 This regression record supports software verification. Laboratory authorization, version/change control and retention of approved validation evidence remain part of the controlled-use process.
