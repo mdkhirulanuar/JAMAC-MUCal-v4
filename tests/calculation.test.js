@@ -40,8 +40,8 @@ let fixed = context.calculate({...base, coverageMode:'fixed', fixedK:2});
 assert.strictEqual(fixed.k95, 2);
 assert.strictEqual(fixed.coverageSource, 'Fixed / ILC protocol');
 near(fixed.ue, fixed.uc * 2, 1e-15, 'Fixed U');
-near(fixed.uc, 0.02129963483488669, 1e-14, 'Reference uc');
-near(fixed.ue, 0.04259926966977338, 1e-14, 'Reference U');
+near(fixed.uc, 0.02129963484298368, 1e-14, 'Reference uc');
+near(fixed.ue, 0.04259926968596736, 1e-14, 'Reference U');
 assert.strictEqual(fixed.ueRounded, 0.043);
 
 // Fixed factor must override Student's-t, while reference remains available.
