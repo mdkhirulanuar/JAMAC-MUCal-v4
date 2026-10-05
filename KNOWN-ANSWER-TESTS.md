@@ -160,9 +160,9 @@ The remaining blocker to a FULLY VERIFIED technical status is the controlled-met
 
 ### CF-02 — Fixed / ILC mode, k = 2.00
 - **Input:** Existing default example; Coverage Factor Mode = Fixed / ILC Protocol; fixed k = 2.00.
-- **Reference result:** uc = 0.0212996348%; U = uc × 2.00 = 0.0425992697%.
+- **Reference result:** uc = 0.02129963484298368%; U = uc × 2.00 = 0.04259926968596736%.
 - **Software requirement:** Applied k = 2.00 regardless of calculated νeff or Student's-t lookup value.
-- **Acceptance:** Unrounded U agrees with 0.0425992697% within 1×10⁻¹⁰ percentage points; displayed upward-rounded U = 0.043%.
+- **Acceptance:** Unrounded U agrees with 0.04259926968596736% within 1×10⁻¹⁰ percentage points; displayed upward-rounded U = 0.043%.
 
 ### CF-03 — Invalid fixed factor
 - **Input:** Coverage Factor Mode = Fixed / ILC Protocol; fixed k ≤ 0.
