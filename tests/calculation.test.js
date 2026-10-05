@@ -14,7 +14,7 @@ test('KAT-01 baseline known answer',()=>{const c=context.calculate({...base});ne
 // KAT-02 sign propagation.
 test('KAT-02 positive reference error gives negative correction',()=>{const c=context.calculate({...base,refStdError:0.02});near(c.correctionFactor,-0.02,1e-15,'CF');near(c.correctedAvg,c.avg-0.02,1e-15,'corrected mean');});
 // KAT-03 zero correction.
-test('KAT-03 zero reference correction',()=>{const c=context.calculate({...base,refStdError:0});assert.strictEqual(c.correctionFactor,0);near(c.correctedAvg,c.avg,1e-15,'corrected mean');});
+test('KAT-03 zero reference correction',()=>{const c=context.calculate({...base,refStdError:0});near(c.correctionFactor,0,0,'CF');near(c.correctedAvg,c.avg,1e-15,'corrected mean');});
 // KAT-04 zero repeatability.
 test('KAT-04 zero repeatability',()=>{const c=context.calculate({...base,readings:[0.01,0.01,0.01,0.01]});near(c.stdDev,0,1e-15,'s');near(c.u1,0,1e-15,'u1');});
 // KAT-05 n=2 sample statistics.
