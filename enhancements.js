@@ -1,4 +1,4 @@
-/* MU Validate Pro v4.2: portable save/load, manual print, decimal display policy */
+/* MU Validate Pro v4.3: portable save/load, manual print, decimal display policy */
 (() => {
   'use strict';
   const $=id=>document.getElementById(id);
@@ -10,8 +10,20 @@
     a.href=URL.createObjectURL(blob);a.download=((s.jobRef||s.projectName||'MU-Calculation').replace(/[^a-z0-9._-]+/gi,'_'))+'_MU.json';a.click();
     setTimeout(()=>URL.revokeObjectURL(a.href),1000);
   }
+  function validateImportedState(s){
+    if(!s||typeof s!=='object'||Array.isArray(s))return false;
+    if(!Array.isArray(s.readings)||s.readings.length<2||s.readings.some(v=>!Number.isFinite(v)))return false;
+    const positive=['cmc','muCert','kCert'],nonNegative=['resolution','historicalDrift','tempCoeff','deltaTemp'];
+    if(positive.some(k=>!Number.isFinite(s[k])||!(s[k]>0)))return false;
+    if(nonNegative.some(k=>!Number.isFinite(s[k])||s[k]<0))return false;
+    if(!Number.isFinite(s.refStdError))return false;
+    const mode=s.coverageMode??'auto';
+    if(!['auto','fixed'].includes(mode))return false;
+    if(mode==='fixed'&&(!Number.isFinite(s.fixedK)||!(s.fixedK>0)))return false;
+    return true;
+  }
   function importProject(file){
-    const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result),s=x.data||x;if(!Array.isArray(s.readings)||s.readings.length<2)throw 0;localStorage.setItem('mu-state-v4',JSON.stringify(s));window.location.reload();}catch(_){alert('Unable to load this MU project file.');}};r.readAsText(file);
+    const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result),s=x.data||x;if(!validateImportedState(s))throw 0;if(s.coverageMode===undefined)s.coverageMode='auto';if(s.fixedK===undefined)s.fixedK=2;localStorage.setItem('mu-state-v4',JSON.stringify(s));window.location.reload();}catch(_){alert('Unable to load this MU project file: invalid or incomplete calculation data.');}};r.readAsText(file);
   }
   function printManual(){if(!$('results-card')||$('results-card').hidden){alert('Please calculate first.');return;}document.body.classList.add('print-manual-only');window.print();}
   function firstNumber(el,d){if(!el)return;const m=el.textContent.match(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?/i);if(!m)return;const v=Number(m[0]);if(Number.isFinite(v))el.textContent=el.textContent.replace(m[0],fixed(v,d));}

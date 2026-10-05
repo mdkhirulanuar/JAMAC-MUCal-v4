@@ -1,4 +1,4 @@
-# ⚡ MU Validate Pro v4.2
+# ⚡ MU Validate Pro v4.3
 
 **Independent Measurement Uncertainty Verification & Validation Tool for Energy Meter Calibration**
 
@@ -6,7 +6,7 @@ Manual calculation trail · Reference-standard correction · Historical drift ·
 
 ## Purpose
 
-MU Validate Pro v4.2 is independently developed software intended for **internal verification and validation of JAMAC Metering measurement uncertainty (MU) calculations**.
+MU Validate Pro v4.3 is independently developed software intended for **internal verification and validation of JAMAC Metering measurement uncertainty (MU) calculations**.
 
 The application uses entered source data to independently recalculate the MU calculation sequence. Its purpose is to provide a second calculation path for checking the correctness of the applicable JAMAC Metering MU calculation worksheet, including intermediate and final results.
 
