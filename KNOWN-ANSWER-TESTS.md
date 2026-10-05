@@ -149,3 +149,24 @@ The engine is independent of the Excel comparison value and retains full calcula
 **Current validation status: CONDITIONALLY VERIFIED.**
 
 The remaining blocker to a FULLY VERIFIED technical status is the controlled-method justification and disposition of ν2 = 60. Regression against Excel remains separate evidence and is not used as proof that the mathematical model itself is correct.
+
+
+## Coverage Factor Mode Regression Tests
+
+### CF-01 — Auto mode backward compatibility
+- **Input:** Existing default example; Coverage Factor Mode = Auto.
+- **Logic:** Calculate effective degrees of freedom and select k from the existing Student's-t 95% table.
+- **Acceptance:** Applied k equals the Student's-t lookup result; existing Auto calculation behavior is unchanged.
+
+### CF-02 — Fixed / ILC mode, k = 2.00
+- **Input:** Existing default example; Coverage Factor Mode = Fixed / ILC Protocol; fixed k = 2.00.
+- **Reference result:** uc = 0.02129963484298368%; U = uc × 2.00 = 0.04259926968596736%.
+- **Software requirement:** Applied k = 2.00 regardless of calculated νeff or Student's-t lookup value.
+- **Acceptance:** Unrounded U agrees with 0.04259926968596736% within 1×10⁻¹⁰ percentage points; displayed upward-rounded U = 0.043%.
+
+### CF-03 — Invalid fixed factor
+- **Input:** Coverage Factor Mode = Fixed / ILC Protocol; fixed k ≤ 0.
+- **Acceptance:** Calculation is rejected with a validation message; no uncertainty result is produced.
+
+### Traceability requirement
+In Fixed / ILC mode, νeff and the Student's-t result remain visible as reference information, while the calculation trail explicitly identifies **Fixed / ILC protocol** as the applied coverage-factor source.
