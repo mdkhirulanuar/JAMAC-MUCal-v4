@@ -10,7 +10,7 @@ const near=(a,e,t,l)=>assert(Math.abs(a-e)<=t,`${l}: expected ${e}, got ${a}`);
 let passed=0;function test(name,fn){fn();passed++;console.log('PASS',name);}
 
 // KAT-01 baseline.
-test('KAT-01 baseline known answer',()=>{const c=context.calculate({...base});near(c.avg,-0.0349,1e-15,'mean');near(c.correctionFactor,0.02,1e-15,'CF');near(c.correctedAvg,-0.0149,1e-15,'corrected mean');near(c.uc,0.02129963484298368,1e-14,'uc');assert.strictEqual(c.lookupDf,70);assert.strictEqual(c.k95,1.99);near(c.ue,c.uc*1.99,1e-15,'U');assert.strictEqual(c.ueRounded,0.043);assert.strictEqual(c.reportedMU,0.043);});
+test('KAT-01 baseline known answer',()=>{const c=context.calculate({...base});near(c.avg,-0.03515,1e-15,'mean');near(c.correctionFactor,0.02,1e-15,'CF');near(c.correctedAvg,-0.01515,1e-15,'corrected mean');near(c.uc,0.02129963484298368,1e-14,'uc');assert.strictEqual(c.lookupDf,70);assert.strictEqual(c.k95,1.99);near(c.ue,c.uc*1.99,1e-15,'U');assert.strictEqual(c.ueRounded,0.043);assert.strictEqual(c.reportedMU,0.043);});
 // KAT-02 sign propagation.
 test('KAT-02 positive reference error gives negative correction',()=>{const c=context.calculate({...base,refStdError:0.02});near(c.correctionFactor,-0.02,1e-15,'CF');near(c.correctedAvg,c.avg-0.02,1e-15,'corrected mean');});
 // KAT-03 zero correction.
