@@ -1,8 +1,8 @@
-# MU Validate Pro v4.2 — Validation Status and Release Criteria
+# MU Validate Pro v4.3 — Validation Status and Release Criteria
 
 ## 1. Validation objective
 
-MU Validate Pro v4.2 is intended to independently recalculate measurement uncertainty from entered source data and to verify/validate the corresponding JAMAC Metering Excel-based MU calculation. Excel-calculated intermediate or final values shall not drive the software calculation engine.
+MU Validate Pro v4.3 is intended to independently recalculate measurement uncertainty from entered source data and to verify/validate the corresponding JAMAC Metering Excel-based MU calculation. Excel-calculated intermediate or final values shall not drive the software calculation engine.
 
 ## 2. Evidence completed
 
@@ -30,7 +30,7 @@ MU Validate Pro v4.2 is intended to independently recalculate measurement uncert
 
 JM-LR-031 Rev.2 defines the calibration-certificate component as Type B / normal and uses the certificate expanded uncertainty and coverage factor to obtain the standard uncertainty. Its uncertainty budget includes degrees of freedom in the Welch–Satterthwaite calculation, but the reviewed controlled record does not prescribe a numerical ν2 value or a rule that establishes 60.
 
-Accordingly, `U2_DOF = 60` in v4.2 is retained only to preserve the current operational calculation model. It shall not be described as an ISO/IEC 17025 requirement or as a universally valid metrological value.
+Accordingly, `U2_DOF = 60` in v4.3 is retained only to preserve the current operational calculation model. It shall not be described as an ISO/IEC 17025 requirement or as a universally valid metrological value.
 
 ## 4. Current release classification
 
@@ -86,7 +86,7 @@ Any change affecting formulas, constants, Student-t lookup, rounding, CMC logic,
 
 ## 8. Recommended controlled conclusion wording
 
-> MU Validate Pro v4.2 independently recalculates measurement uncertainty from entered source data. Calculation-engine Steps 1–15 have been verified against the defined current mathematical model using independent known-answer and boundary tests, with no calculation-sequence defect identified. The software result is calculated independently of the Excel comparison value. Full controlled verification remains conditional on formal approval/documentation of the degrees-of-freedom treatment for the calibration-certificate uncertainty contribution (ν2), currently implemented as the legacy operational value 60.
+> MU Validate Pro v4.3 independently recalculates measurement uncertainty from entered source data. Calculation-engine Steps 1–15 have been verified against the defined current mathematical model using independent known-answer and boundary tests, with no calculation-sequence defect identified. The software result is calculated independently of the Excel comparison value. Full controlled verification remains conditional on formal approval/documentation of the degrees-of-freedom treatment for the calibration-certificate uncertainty contribution (ν2), currently implemented as the legacy operational value 60.
 
 Owner & Developer: Mohd Khirul Anuar Bin Saadon
 Copyright © 2026 Mohd Khirul Anuar Bin Saadon. All Rights Reserved.
