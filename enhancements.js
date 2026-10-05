@@ -1,4 +1,4 @@
-/* MU Validate Pro v4.2: portable save/load, manual print, decimal display policy */
+/* MU Validate Pro v4.3: portable save/load, manual print, decimal display policy */
 (() => {
   'use strict';
   const $=id=>document.getElementById(id);
