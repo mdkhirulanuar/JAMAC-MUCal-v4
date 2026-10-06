@@ -5,7 +5,7 @@
   const fixed=(v,d)=>Number(v).toFixed(d);
   function getState(){try{return JSON.parse(localStorage.getItem('mu-state-v4')||'{}');}catch(_){return{};}}
   function exportProject(){
-    const s=getState(), payload={format:'MU Validate Pro Project',version:'4.2',owner:'Mohd Khirul Anuar Bin Saadon',developer:'Mohd Khirul Anuar Bin Saadon',purpose:'Internal verification and validation of JAMAC Metering MU calculations',savedAt:new Date().toISOString(),data:s};
+    const s=getState();if(!confirmTraceability('export the project'))return;const payload={format:'MU Validate Pro Project',version:'4.2',owner:'Mohd Khirul Anuar Bin Saadon',developer:'Mohd Khirul Anuar Bin Saadon',purpose:'Internal verification and validation of JAMAC Metering MU calculations',savedAt:new Date().toISOString(),data:s};
     const text=JSON.stringify(payload,null,2), blob=new Blob([text],{type:'application/json'}), a=document.createElement('a');
     a.href=URL.createObjectURL(blob);a.download=((s.jobRef||s.projectName||'MU-Calculation').replace(/[^a-z0-9._-]+/gi,'_'))+'_MU.json';a.click();
     setTimeout(()=>URL.revokeObjectURL(a.href),1000);
@@ -25,7 +25,9 @@
   function importProject(file){
     const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result),s=x.data||x;if(!validateImportedState(s))throw 0;if(s.coverageMode===undefined)s.coverageMode='auto';if(s.fixedK===undefined)s.fixedK=2;localStorage.setItem('mu-state-v4',JSON.stringify(s));window.location.reload();}catch(_){alert('Unable to load this MU project file: invalid or incomplete calculation data.');}};r.readAsText(file);
   }
-  function printManual(){if(!$('results-card')||$('results-card').hidden){alert('Please calculate first.');return;}document.body.classList.add('print-manual-only');window.print();}
+  function traceabilityIncomplete(s){const text=['jobRef','customer','meterMfr','meterModel','meterSN','refStdDesc','refStdSN','refStdTrace'];return text.some(k=>!String(s[k]??'').trim())||!Number.isFinite(s.ratedCurrent)||!Number.isFinite(s.ratedVoltage)||!Number.isFinite(s.meterClass)||!String(s.meterType??'').trim()||!String(s.energyType??'').trim()||!String(s.testPhase??'').trim()||!String(s.testPF??'').trim()||!Number.isFinite(s.testVoltage)||!Number.isFinite(s.testCurrent);}
+  function confirmTraceability(action){return !traceabilityIncomplete(getState())||confirm('Traceability information is incomplete. Continue to '+action+' anyway?');}
+  function printManual(){if(!$('results-card')||$('results-card').hidden){alert('Please calculate first.');return;}if(!confirmTraceability('print the report'))return;document.body.classList.add('print-manual-only');window.print();}
   function firstNumber(el,d){if(!el)return;const m=el.textContent.match(/[-+]?\d*\.?\d+(?:e[-+]?\d+)?/i);if(!m)return;const v=Number(m[0]);if(Number.isFinite(v))el.textContent=el.textContent.replace(m[0],fixed(v,d));}
   function decimals(){
     const st=[...document.querySelectorAll('#steps-container .step')];if(st.length<15)return;
